@@ -20,10 +20,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b=hx1w4qhgg51cc6ojh+5p#)mfygo$tomq_kjmq5f!6*3fej&y'
+# SECRET_KEY = 'django-insecure-b=hx1w4qhgg51cc6ojh+5p#)mfygo$tomq_kjmq5f!6*3fej&y'
+
+from dotenv import load_dotenv
+import os
+dotenv_path = BASE_DIR / '.env'
+load_dotenv(dotenv_path=dotenv_path)
+
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('MY_DEBUG') == 'True'
+print(os.getenv('MY_DEBUG'))
 
 ALLOWED_HOSTS = ['*']
 
@@ -86,23 +94,23 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'mydatabase2',
-#         'USER': 'myuser',
-#         'PASSWORD': 'mypassword',
-#         'HOST': 'localhost',  # Set to the address of your PostgreSQL database
-#         'PORT': '',  # Leave as an empty string to use the default port
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'), # new
+        'USER': os.getenv('DB_USER'), # new
+        'PASSWORD': os.getenv('DB_PASSWORD'), # new
+        'HOST': os.getenv('DB_HOST'), # new
+        'PORT': '',  # Leave as an empty string to use the default port
+    }
+}
 
 
 # Password validation

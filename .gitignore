@@ -4,3 +4,6 @@
 db.sqlite3
 
 .coverage
+
+.env
+static/
